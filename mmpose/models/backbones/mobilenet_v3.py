@@ -1,7 +1,4 @@
 # Copyright (c) OpenMMLab. All rights reserved.
-import copy
-import logging
-
 import torch.nn as nn
 from mmcv.cnn import ConvModule, constant_init, kaiming_init
 from torch.nn.modules.batchnorm import _BatchNorm
@@ -9,7 +6,7 @@ from torch.nn.modules.batchnorm import _BatchNorm
 from ..builder import BACKBONES
 from .base_backbone import BaseBackbone
 from .utils import InvertedResidual, load_checkpoint
-
+import copy
 
 @BACKBONES.register_module()
 class MobileNetV3(BaseBackbone):
@@ -65,7 +62,7 @@ class MobileNetV3(BaseBackbone):
     }  # yapf: disable
 
     def __init__(self,
-                 arch='small',
+                 arch='big',
                  conv_cfg=None,
                  norm_cfg=dict(type='BN'),
                  out_indices=(-1, ),
@@ -107,6 +104,26 @@ class MobileNetV3(BaseBackbone):
             act_cfg=dict(type='HSwish'))
 
         self.layers = self._make_layer()
+        
+        if arch == 'big':
+            self.out_channels = 960
+            self.final_channels = 160
+        else:
+            self.out_channels = 576
+            self.final_channels = 96 
+
+        layer = ConvModule(
+            in_channels=self.final_channels,
+            out_channels=self.out_channels,
+            kernel_size=1,
+            stride=1,
+            padding=0,
+            conv_cfg=self.conv_cfg,
+            norm_cfg=self.norm_cfg,
+            act_cfg=dict(type='HSwish'))
+        self.add_module('conv2', layer)
+        self.layers.append('conv2')
+        
         self.feat_dim = self.arch_settings[arch][-1][2]
 
     def _make_layer(self):
@@ -119,8 +136,7 @@ class MobileNetV3(BaseBackbone):
                 se_cfg = dict(
                     channels=mid_channels,
                     ratio=4,
-                    act_cfg=(dict(type='ReLU'),
-                             dict(type='HSigmoid', bias=1.0, divisor=2.0)))
+                    act_cfg=(dict(type='ReLU'), dict(type='HSigmoid')))
             else:
                 se_cfg = None
 
