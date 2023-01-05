@@ -70,8 +70,8 @@ data_cfg_test['bbox_file'] = 'data/salmon/annotations/train_detection.json'
 
 train_pipeline = [
     dict(type='LoadImageFromFile'),
-    dict(type='TopDownGetBboxCenterScale', padding=1.25),
-    dict(type='TopDownRandomShiftBboxCenter', shift_factor=0.16, prob=0.3),
+    # dict(type='TopDownGetBboxCenterScale', padding=1.25),
+    # dict(type='TopDownRandomShiftBboxCenter', shift_factor=0.16, prob=0.3),
     dict(type='TopDownRandomFlip', flip_prob=0.5),
     dict(
         type='TopDownHalfBodyTransform',
