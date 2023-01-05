@@ -135,3 +135,4 @@ data = dict(
         data_cfg=data_cfg,
         pipeline=test_pipeline,
         dataset_info={{_base_.dataset_info}}),
+)
