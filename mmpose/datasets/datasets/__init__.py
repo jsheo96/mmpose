@@ -25,7 +25,7 @@ from .top_down import (TopDownAicDataset, TopDownCocoDataset,
                        TopDownJhmdbDataset, TopDownMhpDataset,
                        TopDownMpiiDataset, TopDownMpiiTrbDataset,
                        TopDownOCHumanDataset, TopDownPoseTrack18Dataset,
-                       TopDownPoseTrack18VideoDataset)
+                       TopDownPoseTrack18VideoDataset, TopDownSalmonDataset)
 
 __all__ = [
     'TopDownCocoDataset', 'BottomUpCocoDataset', 'BottomUpMhpDataset',

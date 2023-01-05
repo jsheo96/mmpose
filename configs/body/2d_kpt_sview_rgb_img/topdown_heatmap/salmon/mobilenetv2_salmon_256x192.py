@@ -18,13 +18,13 @@ lr_config = dict(
     step=[170, 200])
 total_epochs = 210
 channel_cfg = dict(
-    num_output_channels=17,
-    dataset_joints=17,
+    num_output_channels=12,
+    dataset_joints=12,
     dataset_channel=[
-        [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+        [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
     ],
     inference_channel=[
-        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16
+        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
     ])
 
 # model settings
@@ -60,6 +60,13 @@ data_cfg = dict(
     bbox_file='data/coco/person_detection_results/'
     'COCO_val2017_detections_AP_H_56_person.json',
 )
+
+data_cfg_train = data_cfg.copy()
+data_cfg_train['bbox_file'] = 'data/salmon/annotations/train_detection.json'
+data_cfg_val = data_cfg.copy()
+data_cfg_val['bbox_file'] = 'data/salmon/annotations/train_detection.json'
+data_cfg_test = data_cfg.copy()
+data_cfg_test['bbox_file'] = 'data/salmon/annotations/train_detection.json'
 
 train_pipeline = [
     dict(type='LoadImageFromFile'),
@@ -117,22 +124,22 @@ data = dict(
     train=dict(
         type='TopDownSalmonDataset',
         ann_file=f'{data_root}/annotations/train.json',
-        img_prefix=f'{data_root}/train/',
-        data_cfg=data_cfg,
+        img_prefix=f'{data_root}/images/',
+        data_cfg=data_cfg_train,
         pipeline=train_pipeline,
         dataset_info={{_base_.dataset_info}}),
     val=dict(
         type='TopDownSalmonDataset',
         ann_file=f'{data_root}/annotations/val.json',
-        img_prefix=f'{data_root}/train/',
-        data_cfg=data_cfg,
+        img_prefix=f'{data_root}/images/',
+        data_cfg=data_cfg_val,
         pipeline=val_pipeline,
         dataset_info={{_base_.dataset_info}}),
     test=dict(
         type='TopDownSalmonDataset',
         ann_file=f'{data_root}/annotations/val.json',
-        img_prefix=f'{data_root}/train/',
-        data_cfg=data_cfg,
+        img_prefix=f'{data_root}/images/',
+        data_cfg=data_cfg_val,
         pipeline=test_pipeline,
         dataset_info={{_base_.dataset_info}}),
 )
