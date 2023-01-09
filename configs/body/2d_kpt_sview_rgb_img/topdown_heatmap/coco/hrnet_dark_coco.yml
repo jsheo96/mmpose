@@ -55,7 +55,7 @@ Models:
       AR@0.5: 0.943
     Task: Body 2D Keypoint
   Weights: https://download.openmmlab.com/mmpose/top_down/hrnet/hrnet_w48_coco_256x192_dark-8cba3197_20200812.pth
-- Config: configs/body/2d_kpt_sview_rgb_img/topdown_heatmap/coco/hrnet_w48_coco_384x288_dark.py
+- Config: configs/body/2d_kpt_sview_rgb_img/topdown_heatmap/coco/hrnet_w48_salmon_384x288_dark.py
   In Collection: DarkPose
   Metadata:
     Architecture: *id001
