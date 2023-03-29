@@ -8,7 +8,7 @@ from .datasets import (  # isort:skip
     AnimalATRWDataset, AnimalFlyDataset, AnimalHorse10Dataset,
     AnimalLocustDataset, AnimalMacaqueDataset, AnimalPoseDataset,
     AnimalZebraDataset, Body3DH36MDataset, BottomUpAicDataset,
-    BottomUpCocoDataset, BottomUpCocoWholeBodyDataset,
+    BottomUpCocoDataset, BottomUpSalmonDataset, BottomUpCocoWholeBodyDataset,
     BottomUpCrowdPoseDataset, BottomUpMhpDataset, DeepFashionDataset,
     Face300WDataset, FaceAFLWDataset, FaceCocoWholeBodyDataset,
     FaceCOFWDataset, FaceWFLWDataset, FreiHandDataset,
@@ -24,7 +24,7 @@ from .datasets import (  # isort:skip
     Body3DMviewDirectCampusDataset, NVGestureDataset, TopDownSalmonDataset)
 
 __all__ = [
-    'TopDownCocoDataset', 'BottomUpCocoDataset', 'BottomUpMhpDataset',
+    'TopDownCocoDataset', 'BottomUpCocoDataset', 'BottomUpSalmonDataset', 'BottomUpMhpDataset',
     'BottomUpAicDataset', 'BottomUpCocoWholeBodyDataset', 'TopDownMpiiDataset',
     'TopDownMpiiTrbDataset', 'OneHand10KDataset', 'PanopticDataset',
     'HandCocoWholeBodyDataset', 'FreiHandDataset', 'InterHand2DDataset',
