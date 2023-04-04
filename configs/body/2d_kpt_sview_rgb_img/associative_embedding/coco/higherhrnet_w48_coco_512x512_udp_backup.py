@@ -1,13 +1,13 @@
 _base_ = [
     '../../../../_base_/default_runtime.py',
-    '../../../../_base_/datasets/salmon.py'
+    '../../../../_base_/datasets/coco.py'
 ]
-checkpoint_config = dict(interval=10)
-evaluation = dict(interval=10, metric='mAP', save_best='AP')
+checkpoint_config = dict(interval=50)
+evaluation = dict(interval=50, metric='mAP', save_best='AP')
 
 optimizer = dict(
     type='Adam',
-    lr=0.0030,
+    lr=0.0015,
 )
 optimizer_config = dict(grad_clip=None)
 # learning policy
@@ -19,12 +19,12 @@ lr_config = dict(
     step=[200, 260])
 total_epochs = 300
 channel_cfg = dict(
-    dataset_joints=1,
+    dataset_joints=17,
     dataset_channel=[
-        [0],
+        [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
     ],
     inference_channel=[
-        0
+        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16
     ])
 
 data_cfg = dict(
@@ -42,7 +42,8 @@ data_cfg = dict(
 # model settings
 model = dict(
     type='AssociativeEmbedding',
-    pretrained='https://download.openmmlab.com/mmpose/bottom_up/higher_hrnet48_coco_512x512_udp-7cad61ef_20210222.pth',
+    pretrained='https://download.openmmlab.com/mmpose/'
+    'pretrain_models/hrnet_w48-8ef0771d.pth',
     backbone=dict(
         type='HRNet',
         in_channels=3,
@@ -75,7 +76,7 @@ model = dict(
     keypoint_head=dict(
         type='AEHigherResolutionHead',
         in_channels=48,
-        num_joints=1,
+        num_joints=17,
         tag_per_joint=True,
         extra=dict(final_conv_kernel=1, ),
         num_deconv_layers=1,
@@ -86,7 +87,7 @@ model = dict(
         with_ae_loss=[True, False],
         loss_keypoint=dict(
             type='MultiLossFactory',
-            num_joints=1,
+            num_joints=17,
             num_stages=2,
             ae_loss_type='exp',
             with_ae_loss=[True, False],
@@ -97,7 +98,7 @@ model = dict(
     train_cfg=dict(),
     test_cfg=dict(
         num_joints=channel_cfg['dataset_joints'],
-        max_num_people=34,
+        max_num_people=30,
         scale_factor=[1],
         with_heatmaps=[True, True],
         with_ae=[True, False],
@@ -133,7 +134,7 @@ train_pipeline = [
     dict(
         type='BottomUpGenerateTarget',
         sigma=2,
-        max_num_people=34,
+        max_num_people=30,
         use_udp=True,
     ),
     dict(
@@ -166,30 +167,30 @@ val_pipeline = [
 
 test_pipeline = val_pipeline
 
-data_root = 'data/salmon_localization_dataset'
+data_root = 'data/coco'
 data = dict(
-    workers_per_gpu=6,
-    train_dataloader=dict(samples_per_gpu=4),
+    workers_per_gpu=2,
+    train_dataloader=dict(samples_per_gpu=16),
     val_dataloader=dict(samples_per_gpu=1),
     test_dataloader=dict(samples_per_gpu=1),
     train=dict(
-        type='BottomUpSalmonDataset',
-        ann_file=f'{data_root}/annotations/train.json',
-        img_prefix=f'{data_root}/images/',
+        type='BottomUpCocoDataset',
+        ann_file=f'{data_root}/annotations/person_keypoints_train2017.json',
+        img_prefix=f'{data_root}/train2017/',
         data_cfg=data_cfg,
         pipeline=train_pipeline,
         dataset_info={{_base_.dataset_info}}),
     val=dict(
-        type='BottomUpSalmonDataset',
-        ann_file=f'{data_root}/annotations/val.json',
-        img_prefix=f'{data_root}/images/',
+        type='BottomUpCocoDataset',
+        ann_file=f'{data_root}/annotations/person_keypoints_val2017.json',
+        img_prefix=f'{data_root}/val2017/',
         data_cfg=data_cfg,
         pipeline=val_pipeline,
         dataset_info={{_base_.dataset_info}}),
     test=dict(
-        type='BottomUpSalmonDataset',
-        ann_file=f'{data_root}/annotations/test.json',
-        img_prefix=f'{data_root}/images/',
+        type='BottomUpCocoDataset',
+        ann_file=f'{data_root}/annotations/person_keypoints_val2017.json',
+        img_prefix=f'{data_root}/val2017/',
         data_cfg=data_cfg,
         pipeline=test_pipeline,
         dataset_info={{_base_.dataset_info}}),

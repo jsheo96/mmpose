@@ -1,5 +1,5 @@
 dataset_info = dict(
-    dataset_name='coco',
+    dataset_name='salmon',
     paper_info=dict(
         author='Lin, Tsung-Yi and Maire, Michael and '
         'Belongie, Serge and Hays, James and '
