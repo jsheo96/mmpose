@@ -26,7 +26,8 @@ RUN pip install --no-cache-dir mmcv-full==1.3.17 -f https://download.openmmlab.c
 
 # Install MMPose
 RUN conda clean --all
-RUN git clone https://github.com/open-mmlab/mmpose.git /mmpose
+# RUN git clone https://github.com/open-mmlab/mmpose.git /mmpose
+RUN git clone https://github.com/jsheo96/mmpose.git /mmpose
 WORKDIR /mmpose
 RUN mkdir -p /mmpose/data
 ENV FORCE_CUDA="1"

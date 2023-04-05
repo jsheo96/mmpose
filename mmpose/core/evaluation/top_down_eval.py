@@ -392,7 +392,7 @@ def post_dark_udp(coords, batch_heatmaps, kernel=3):
     hessian = np.concatenate([dxx, dxy, dxy, dyy], axis=1)
     hessian = hessian.reshape(N, K, 2, 2)
     hessian = np.linalg.inv(hessian + np.finfo(np.float32).eps * np.eye(2))
-    coords -= np.einsum('ijmn,ijnk->ijmk', hessian, derivative).squeeze()
+    coords -= np.einsum('ijmn,ijnk->ijmk', hessian, derivative).squeeze(-1)
     return coords
 
 

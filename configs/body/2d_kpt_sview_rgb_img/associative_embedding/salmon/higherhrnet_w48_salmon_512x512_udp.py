@@ -7,7 +7,7 @@ evaluation = dict(interval=10, metric='mAP', save_best='AP')
 
 optimizer = dict(
     type='Adam',
-    lr=0.0030,
+    lr=0.0015 / 4,
 )
 optimizer_config = dict(grad_clip=None)
 # learning policy

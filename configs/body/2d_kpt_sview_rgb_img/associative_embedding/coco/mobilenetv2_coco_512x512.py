@@ -2,8 +2,8 @@ _base_ = [
     '../../../../_base_/default_runtime.py',
     '../../../../_base_/datasets/coco.py'
 ]
-checkpoint_config = dict(interval=50)
-evaluation = dict(interval=50, metric='mAP', save_best='AP')
+checkpoint_config = dict(interval=1)
+evaluation = dict(interval=1, metric='mAP', save_best='AP')
 
 optimizer = dict(
     type='Adam',

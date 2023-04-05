@@ -903,7 +903,6 @@ class BottomUpGenerateTarget:
 
         results['masks'], results['joints'] = mask_list, joints_list
         results['targets'] = target_list
-
         return results
 
 
